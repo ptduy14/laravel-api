@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         for ($i=0; $i < 5; $i++) { 
             $this->call([
-                UserSeeder::class,
-                CategorySeeder::class
+                ProductSeeder::class
             ]);
         }
     }

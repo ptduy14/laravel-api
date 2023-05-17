@@ -7,6 +7,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductDetailController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,11 @@ Route::get('/users/{id}', [UserController::class, 'getUser']);
 Route::post('/users', [UserController::class, 'createUser']);
 Route::put('/users/{id}', [UserController::class, 'updateUser']);
 Route::delete('/users/{id}', [UserController::class, 'deleteUser']);
+
+Route::get('/users/{id}/carts', [CartController::class, 'getCart']);
+Route::post('/users/{id}/carts/products/{id_product}', [CartController::class, 'addProductCartItem']);
+Route::delete('/users/{id}/carts/products/{id_product}', [CartController::class,'deleteProductCartItem']);
+Route::put('/users/{id}/carts/products/{id_product}', [CartController::class,'updateProductCartItem']);
 
 Route::get('/categories', [CategoryController::class, 'getAllCategory']);
 Route::get('/categories/{id}', [CategoryController::class, 'getCategory']);

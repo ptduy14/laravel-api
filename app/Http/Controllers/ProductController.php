@@ -70,6 +70,17 @@ class ProductController extends Controller
 
         throw_if(!$category, InvalidForeignKey::class);
 
+        if ($request->product_status == 1) {
+            $ProductDetail = $product->detail;
+
+            if (!$ProductDetail) {
+                return response()->json([
+                    'status' => 202,
+                    'message' => 'cannot change becausse this product not have detail'
+                ]);
+            }
+        }
+
         $product->update([
             'product_name' => $request->input('product_name'),
             'product_price' => $request->input('product_price'),

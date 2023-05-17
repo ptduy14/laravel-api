@@ -8,6 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Cart;
+use App\Models\Order;
 
 class User extends Authenticatable
 {
@@ -48,4 +50,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function cart() {
+        return $this->hasOne(Cart::class, 'user_id', 'user_id');
+    }
+
+    public function orders() {
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
 }
