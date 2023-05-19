@@ -68,6 +68,6 @@ class Kernel extends HttpKernel
         'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
-        'forbid' => \App\Http\Middleware\ForbidMiddleware::class,
+        'jwt.verify' => \App\Http\Middleware\JWTMiddleware::class,
     ];
 }

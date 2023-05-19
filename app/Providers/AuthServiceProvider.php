@@ -23,17 +23,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         // token expire
-        Passport::tokensExpireIn(now()->addDays(3));
-        Passport::refreshTokensExpireIn(now()->addDays(10));
-        Passport::personalAccessTokensExpireIn(now()->addDays(6));
-
-        // define scope
-        Passport::tokensCan([
-            'oauth-data-scope' => 'Get Infomation Form Your Account',
-        ]);
-
-        Passport::setDefaultScope([
-            'oauth-data-scope'
-        ]);
+        Passport::tokensExpireIn(now()->addDays(3)); // token sẽ hết hạn trong 3 ngày
+        Passport::refreshTokensExpireIn(now()->addDays(10)); // refresh Token sẽ hết hạn trong 5 ngày
+        Passport::personalAccessTokensExpireIn(now()->addDays(6)); // PAT sẽ hết hạn trong 6 ngày
     }
 }

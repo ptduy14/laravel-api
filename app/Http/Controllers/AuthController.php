@@ -21,7 +21,7 @@ class AuthController extends Controller
             'address' => $request->input('address'),
             'gender' => $request->input('gender'),
             'password' => bcrypt($request->input('password')),
-        ]);
+        ])->assignRole('user');
 
         return response()->json([
             'status' => 201,
@@ -33,31 +33,53 @@ class AuthController extends Controller
     public function login(FormLoginRequest $request) {
         $request->validated();
     
-        $user = User::where('email', $request->email)->first();
+        $credentials = request(['email', 'password']);
 
-        if ($user && Hash::check($request->password, $user->password)) {
-            $token = $user->createToken('PAT')->accessToken;
-
+        
+        if (! $token = auth()->guard('jwt')->attempt($credentials)) {
             return response()->json([
-                'status' => 201,
-                'message' => 'Logged in successfully. Token will expire in 6 days',
-                'Token' => $token
-            ]);
-        } else {
-            return response()->json([
-                'status' => 400,
-                'message'=> 'Username or password incorrect',
+                'status' => 401,
+                'message' => 'Unauthorized'
             ]);
         }
+
+        return $this->respondWithToken($token);
     }
 
-    public function logout(Request $request) {
+    public function logout()
+    {
+        auth()->logout();
 
-        $request->user()->token()->revoke();
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function profile($id) {
+        $user_id = auth('jwt')->user()->user_id;
+
+        if ($user_id !== (int)$id ) {
+            return response()->json([
+                'status' => 401 ,
+                'message' => 'Access Denied',
+            ]);
+        }
+        
+        $user = User::find($id);
 
         return response()->json([
-            'status' => 2001,
-            'message'=> 'Account logout',
+            'status' => 201,
+            'message'=> 'Account registered successfully',
+            'data' =>  new UserResource($user),
+        ]);
+    }
+
+    protected function respondWithToken($token)
+    {
+        return response()->json([
+            'status' => 200,
+            'message' => 'login succesfully',
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->guard('jwt')->factory()->getTTL() * 60
         ]);
     }
 }

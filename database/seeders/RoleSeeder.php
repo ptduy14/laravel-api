@@ -16,6 +16,6 @@ class RoleSeeder extends Seeder
     {
         // seeder tạo ra 2 quyền cơ bản admin và user
         // Role::create(['name' => 'admin']);
-        // Role::create(['name' => 'user']);
+        Role::create(['name' => 'super-admin']);
     }
 }

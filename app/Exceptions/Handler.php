@@ -9,6 +9,8 @@ use App\Exceptions\ItemDoesNotExit;
 use App\Exceptions\InvalidForeignKey;
 use App\Exceptions\ForeignKeyConstraintException;
 use App\Exceptions\InvalidDateException;
+use Illuminate\Auth\AuthenticationException;
+
 
 class Handler extends ExceptionHandler
 {
@@ -78,4 +80,13 @@ class Handler extends ExceptionHandler
             ], 404);
         });
     }
+
+    protected function unauthenticated($request, AuthenticationException $exception)
+    {
+        return response()->json([
+            'status' => 401,
+            'message' => 'Unauthenticated.'
+        ]);
+    }
+
 }

@@ -8,6 +8,8 @@ use App\Http\Resources\UserResource;
 use App\Exceptions\ItemDoesNotExit;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UpdateUserRoleRequest;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -45,7 +47,7 @@ class UserController extends Controller
             'address' => $request->input('address'),
             'gender' => $request->input('gender'),
             'password' => bcrypt($request->input('password')),
-        ]);
+        ])->assignRole('admin');
         
         return response()->json([
             'status' => 201,
@@ -54,7 +56,16 @@ class UserController extends Controller
         ]);
     }
 
-    public function updateUser(UpdateUserRequest $request,$id) {
+    public function updateUser(UpdateUserRequest $request, $id) {
+        $user_id = auth('jwt')->user()->user_id;
+
+        if ($user_id !== (int)$id ) {
+            return response()->json([
+                'status' => 401 ,
+                'message' => 'Access Denied',
+            ]);
+        }
+
         $user = User::find($id);
 
         throw_if(!$user, ItemDoesNotExit::class);
@@ -85,6 +96,33 @@ class UserController extends Controller
         return response()->json([
             'status' => 204,
             'message' => 'The action is done successfully',
+        ]);
+    }
+
+    public function UpdateUserRole($id, UpdateUserRoleRequest $request) {
+        $request->validated();
+
+        $user = User::find($id);
+
+        throw_if(!$user, ItemDoesNotExit::class);
+
+        switch ($request->role) {
+            case 1:
+                $user->syncRoles('admin');
+                break;
+            
+            case 2:
+                $user->syncRoles('super-admin');
+                break;
+            default:
+                $user->syncRoles('user');
+                break;
+        }
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'The action is done successfully',
+            'data' => new UserResource($user),
         ]);
     }
 }

@@ -10,8 +10,9 @@ use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 use App\Models\Cart;
 use App\Models\Order;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -31,7 +32,7 @@ class User extends Authenticatable
         'verify',
         'password',
     ];
-
+    protected $guard_name = 'api';
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -41,6 +42,18 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
+    
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
 
     /**
      * The attributes that should be cast.
