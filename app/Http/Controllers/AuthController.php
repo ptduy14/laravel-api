@@ -53,17 +53,11 @@ class AuthController extends Controller
         return response()->json(['message' => 'Successfully logged out']);
     }
 
-    public function profile($id) {
+    public function profile() {
         $user_id = auth('jwt')->user()->user_id;
 
-        if ($user_id !== (int)$id ) {
-            return response()->json([
-                'status' => 401 ,
-                'message' => 'Access Denied',
-            ]);
-        }
         
-        $user = User::find($id);
+        $user = User::find($user_id);
 
         return response()->json([
             'status' => 201,

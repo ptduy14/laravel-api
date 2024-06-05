@@ -22,7 +22,7 @@ use App\Http\Controllers\OrderController;
 |
 */
 
-// use for OAuth2
+// use Passport for OAuth2
 Route::get('/user', function (Request $request) {
     return response()->json([
         'status' => 200,
@@ -38,7 +38,7 @@ Route::middleware('auth:jwt')->group(function () {
 
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::put('/users/{id}', [UserController::class, 'updateUser']);
-    Route::get('/users/{id}/profile', [AuthController::class, 'profile']);
+    Route::get('/users/profile', [AuthController::class, 'profile']);
 
     Route::middleware('role:super-admin')->group(function() {
         Route::put('/users/{id}/roles', [UserController::class, 'updateUserRole']);
