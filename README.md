@@ -78,6 +78,6 @@ This project is an e-commerce API designed to manage users, products, orders, an
 ### Additional Notes
 
 Middleware:
-- `auth:api`: Sử dụng Passport cho xác thực OAuth2.
-- `auth:jwt`: Sử dụng JWT cho xác thực.
-- `role`: Kiểm tra quyền hạn của người dùng, ví dụ như role:super-admin, role:admin|super-admin, role:user.
+- `auth:api`: Use Passport for OAuth2 authentication..
+- `auth:jwt`:Use JWT for authentication.
+- `role`:Check the user's permissions, for example `role:super-admin`, `role:admin|super-admin`, `role:user`
