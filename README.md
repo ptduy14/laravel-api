@@ -1,6 +1,7 @@
 # Laravel API
 
 An e-commerce API built following REST architectural standards using the Laravel Framework. This project includes features such as user authentication with JWT, OAuth2 authorization, role-based access control, and resource management.
+
 <a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a>
 
 ## Introduction
