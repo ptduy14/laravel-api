@@ -8,6 +8,8 @@ An e-commerce API built following REST architectural standards using the Laravel
 
 This project is an e-commerce API designed to manage users, products, orders, and authentication. It is built with the Laravel framework, leveraging JWT for secure authentication and OAuth2 for authorization.
 
+Check latest update version here: https://github.com/ptduy14/laravel-api-v2
+
 ## Features
 
 - User authentication with JWT
